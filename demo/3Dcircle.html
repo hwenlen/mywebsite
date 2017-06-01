@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>3Dcircle</title>
+		<style>
+			body{
+				perspective: 2000px;
+				transform-style: preserve-3d;
+				background-color:#010101;
+				user-select:none;
+			}
+			#box{
+				width: 50px;
+				height: 60px;
+				margin: 250px auto;
+				position: relative;
+				transform-style: preserve-3d;
+				transition: 1000s linear;
+				-moz-transition: 1000s linear;
+				-webkit-transition: 1000s linear;
+				z-index: 100;
+			}
+			#box:hover{
+				transform: rotateY(100000deg);
+			}
+			.block{
+				width: 50px;
+				height: 60px;
+				border: 2px solid #fff;
+				border-radius: 3px;
+				transform: translate(-300px,300px) scale(3);
+				position: absolute;
+				text-align: center;
+				line-height:60px;
+				color: #fff;
+				font-size: 25px;
+			}
+		</style>
+		<script>
+			if(window.navigator.userAgent.indexOf('Trident') != -1) {
+			    alert('本页面效果不支持ie内核的浏览器，页面可能无法正常显示，请更换其他浏览器');
+			}
+		</script>
+	</head>
+	<body>
+		<div id="box">
+			<div class="li"></div>
+		</div>
+	</body>
+</html>
+<script>
+	var oBox = document.querySelector('#box');
+	
+	var b = 73;
+	for(var i=0; i<b; i++){
+		var oDiv = document.createElement('div');
+		oDiv.classList.add('block');
+		oDiv.innerHTML = i;
+		oBox.appendChild(oDiv);
+	}
+	
+	var aBlock = document.querySelectorAll('.block');
+	setTimeout(function(){
+		/*aBlock.forEach(function(oBlock,index){
+			//加延时一个一个来
+			oBlock.style.transition = '0.3s '+(index*0.05)+'s';
+			//初始放大3倍才看起来向后 实际是向前100px
+			oBlock.style.transform = 'rotateY('+(index*36)+'deg) translateZ(100px) translateY('+((index+0.2)*7-200)+'px)';
+		})*/
+
+		for(var i=0; i<aBlock.length; i++){
+			//加延时一个一个来
+			aBlock[i].style.transition = '0.3s '+(i*0.05)+'s';
+			//初始放大3倍才看起来向后 实际是向前100px
+			aBlock[i].style.transform = 'rotateY('+(i*36)+'deg) translateZ(100px) translateY('+((i+0.2)*7-200)+'px)';
+		}
+	},50);
+	
+	document.onclick = function(){
+		for (var i=0; i<aBlock.length; i++){
+			var rotateX = 0;
+			var rotateY = 0;
+
+			if(i < 17){
+				// 中间一层 前17个排在中间圆X不用转 rotateX = 0；
+				rotateY = i*360/17;  
+			}else if(i < 45){
+				rotateY = (i-17)%14*360/14;
+				//1就是向上 -1向下
+				rotateX = 90/4  * ( (i-17)/14 >= 1 ? 1 : -1 );
+			}else if( i < 63 ){
+				rotateY = (i-45)%9*360/9;
+				//90/4=15  分4层 第三层*2
+				rotateX = 90/4 * 2 * ( (i-45)/9 >= 1 ? 1 : -1 );
+			}else{
+				rotateY = (i-63)%5*360/5;
+				rotateX = 90/4 * 3 * ( (i-63)/5 >= 1 ? 1 : -1 );
+			} 
+			
+			aBlock[i].style.transform = 'rotateY('+rotateY+'deg) rotateX('+rotateX+'deg) translateZ(200px)';
+		}
+	}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

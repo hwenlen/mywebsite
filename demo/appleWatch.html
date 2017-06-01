@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>applleWatch</title>
+		<style>
+			body{
+				background-color: black;
+				text-align: center;
+			}
+			canvas{
+				background-color: #fff;
+				margin-top: 100px;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas width="260" height="300"></canvas>
+	</body>
+</html>
+<script>
+	var oC = document.querySelector('canvas');
+	var ctx = oC.getContext('2d');
+	
+	ctx.lineWidth = 20;
+	ctx.lineCap = 'round';
+	
+	var rt = Math.PI/2;
+	
+	ctx.font = '20px 微软雅黑';
+	ctx.textAlign = 'center';
+	ctx.textBaseline = 'middle';
+	
+	setInterval(function(){
+		ctx.clearRect(0,0,oC.width,oC.height);
+		var date = new Date();
+		
+		var hour = date.getHours()%12;   //手表是12小时
+		var minute = date.getMinutes();
+		var second = date.getSeconds();
+		var millisecond = date.getMilliseconds();
+		
+		ctx.fillText('watch',130,150);
+		ctx.fillText('苹果手表',130,10);
+		
+		ctx.beginPath();
+		//秒
+		ctx.arc(130,150,100,0-rt,2*Math.PI*(second + millisecond/1000)/60 - rt,false);
+		ctx.strokeStyle = "#CE1049"
+		ctx.stroke();
+		
+		ctx.beginPath();
+			// 分
+		ctx.arc(130,150,75,0-rt,2*Math.PI*(minute+second/60)/60-rt,false);
+		ctx.strokeStyle = "#7FF0EF"
+		ctx.stroke();
+
+		ctx.beginPath();
+		// 时
+		ctx.arc(130,150,50,0-rt,2*Math.PI*(hour+minute/60)/12-rt,false);
+		ctx.strokeStyle = "#A9FF0A"
+		ctx.stroke();
+	},16);
+		
+</script>

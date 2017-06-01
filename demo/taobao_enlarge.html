@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>taobao</title>
+		<style>
+			*{
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			#box{
+				width: 400px;
+				position: absolute;
+				left: 300px;
+				top: 50px;
+			}
+			#left_box{
+				display: block;
+				width: 400px;
+				height: 400px;
+				position: relative;
+			}
+			#left_box img{
+				width: 400px;
+				height: 400px;
+			}
+			#left_box span{
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 200px;
+				height: 200px;
+				background-color: #35a;
+				opacity: 0.3;
+				filter: alpha(opacity:30);
+				display: none;
+			}
+			#bot_box{
+				overflow: hidden;
+			}
+			#bot_box li{
+				width: 60px;
+				height: 60px;
+				margin: 0 0 0 16px;
+				padding-top: 22px;
+				float: left;
+			}
+			#bot_box li a{
+				position: relative;
+				display: block;
+				width: 60px;
+				height: 60px;
+				outline: 0;
+				overflow: hidden;
+			}
+			#bot_box li a img{
+				width: 60px;
+				height: 60px;
+			}
+			#bot_box li.active a{
+				border: 2px solid #fa5506;
+				width: 56px;
+				height: 56px;
+			}
+			#bot_box li.active img{
+				position: absolute;
+				left: -2px;
+				top: -2px;
+			}
+			#right_box{
+				width: 400px;
+				height: 400px;
+				position: absolute;
+				left: 450px;
+				top: 0; 
+				z-index: 2;
+				border: 1px solid #ccc;
+				z-index: 10;
+				overflow: hidden;
+				display: none;
+			}
+			#right_box img{
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 800px;
+				height: 800px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			<a  href="javascript:;" id="left_box">
+				<img src="img/taobao1.jpg"/>
+				<span></span>
+			</a>
+			<ul id="bot_box">
+				<li id="active">
+					<a href="javascript:;" ><img src="img/taobao1.jpg" alt="..."/></a>
+				</li>
+				<li>
+					<a href="javascript:;"><img src="img/taobao2.jpg" alt="..."/></a>
+				</li>
+				<li>
+					<a href="javascript:;"><img src="img/taobao3.jpg" alt="..."/></a>
+				</li>	
+				<li>
+					<a href="javascript:;"><img src="img/taobao4.jpg" alt="..."/></a>
+				</li>
+			</ul>
+			<div id="right_box">
+				<img src="img/taobao1.jpg"/>
+			</div>
+			
+		</div>    
+	</body>
+</html>
+<script>
+	window.onload=function(){
+		var oLeftBox=document.getElementById('left_box');
+		var oImgSmall=oLeftBox.children[0];
+		var oSpan=oLeftBox.children[1];
+		var oRightBox=document.getElementById('right_box');
+		var oImgBig=oRightBox.children[0];
+		var oBotBox=document.getElementById('bot_box');
+		var aBtn=oBotBox.getElementsByTagName('li');
+		var oBox=document.getElementById('box');
+
+		
+		oLeftBox.onmouseenter=function(){
+			oSpan.style.display='block';
+			oRightBox.style.display='block';
+		};
+		oLeftBox.onmouseleave=function(){
+			oSpan.style.display='none';
+			oRightBox.style.display='none';
+		};
+		//选项卡
+		for(var i=0;i<aBtn.length;i++){
+			(function(index){
+				aBtn[i].onmouseenter=function(){
+					for(var i=0;i<aBtn.length;i++){
+						aBtn[i].className='';
+					}
+					aBtn[index].className='active';
+					oImgSmall.src='img/taobao'+(index+1)+'.jpg';
+					oImgBig.src='img/taobao'+(index+1)+'.jpg';
+				};
+			})(i)
+		}
+		// 放大镜
+			oLeftBox.onmousemove=function(ev){
+				var oEvent=ev || event;
+				var l=oEvent.clientX-oBox.offsetLeft-oLeftBox.offsetLeft-oSpan.offsetWidth/2;
+				var t=oEvent.clientY-oBox.offsetTop-oLeftBox.offsetTop-oSpan.offsetHeight/2;
+				//判断
+				var maxW=oLeftBox.offsetWidth-oSpan.offsetWidth;
+				var maxH=oLeftBox.offsetHeight-oSpan.offsetHeight;
+
+				if(l<0) l=0;
+				if(l>maxW) l=maxW;
+
+				if(t<0) t=0;
+				if(t>maxH) t=maxH;
+					
+				oSpan.style.left=l+'px';
+				oSpan.style.top=t+'px';
+
+				//比例
+				var scaleX=(l/maxW);
+				var scaleY=(t/maxH);
+
+				oImgBig.style.left=-scaleX*(oImgBig.offsetWidth-oRightBox.offsetWidth)+'px';
+				oImgBig.style.top=-scaleY*(oImgBig.offsetHeight-oRightBox.offsetHeight)+'px';
+
+			}
+			
+	};
+</script>

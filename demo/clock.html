@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>clock</title>
+		<style>
+			.container{
+				width: 300px;
+				height: 300px;
+				border: 2px solid #000;
+				margin: 50px auto;
+				border-radius: 50%;
+				position: relative;
+			}
+			.hour{
+				width: 8px;
+				height: 60px;
+				background-color: red;
+				position: absolute;
+				top: 90px;
+				left: 146px;
+				transform-origin:center bottom ;
+			}
+			.minute{
+				width: 6px;
+				height: 80px;
+				background-color: green;
+				position: absolute;
+				top: 70px;
+				left: 147px;
+				transform-origin:center bottom ;
+			}
+			.second{
+				width: 4px;
+				height: 100px;
+				background-color: blue;
+				position: absolute;
+				top: 50px;
+				left: 148px;
+				transform-origin:center bottom ;
+			}
+			.dian{
+				width: 20px;
+				height: 20px;
+				background-image: radial-gradient(white,#a9a);
+				border-radius: 50%;
+				position: absolute;
+				top: 140px;
+				left: 140px;
+			}
+			.mark{
+				width: 8px;
+				height: 10px;
+				background-color: black;
+				position: absolute;
+				top: 0;
+				left: 146px;
+				transform-origin: 4px 150px;
+			}
+			.num{
+				width: 20px;
+				height: 20px;
+				position: absolute;
+				top: 10px;
+				left: -7px;
+				line-height: 20px;
+				text-align: center;
+			}
+			.smamark{
+				width: 2px;
+				height: 6px;
+				background-color: black;
+				position: absolute;
+				top: 0;
+				left: 149px;
+				transform-origin: 1px 150px;
+			}
+		</style>
+		<script>
+			if(window.navigator.userAgent.indexOf('Trident') != -1) {
+			    alert('本页面效果不支持ie内核的浏览器，页面可能无法正常显示，请更换其他浏览器');
+			}
+		</script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="hour"></div>
+			<div class="minute"></div>
+			<div class="second"></div>
+			<div class="dian"></div>
+		</div>
+	</body>
+</html>
+<script>
+	var oContainer = document.querySelector('.container');
+	var oHour = document.querySelector('.hour');
+	var oMinute = document.querySelector('.minute');
+	var oSecond = document.querySelector('.second');
+	
+	var count = 12;
+	for(var i=0; i<count; i++){
+		var oDiv = document.createElement('div');
+		oDiv.classList.add('mark');
+		oDiv.style.transform = `rotate(${i*360/12}deg)`;
+		oContainer.appendChild(oDiv);
+		
+		var oNum = document.createElement('div');
+		oNum.classList.add('num');
+		oNum.innerHTML = i;
+		if(i==0){
+			oNum.innerHTML = 12;
+		}
+		oNum.style.transform = `rotate(${-i*360/count}deg)`;
+		oDiv.appendChild(oNum);
+	}
+	
+	var count2 = 60;
+	for(var i=0;i<count2;i++){
+		var oDiv = document.createElement('div');
+		oDiv.classList.add('smamark');
+		oDiv.style.transform = `rotate(${i*360/60}deg)`;
+		oContainer.appendChild(oDiv);
+	}
+	setInterval(function(){
+		var oDate = new Date();
+		var hour = oDate.getHours();
+		var minute = oDate.getMinutes();
+		var second = oDate.getSeconds();
+		var millinSecond = oDate.getMilliseconds();
+	
+		oHour.style.transform = `rotate(${(hour+minute/60)*360/12}deg)`;
+		oMinute.style.transform = `rotate(${(minute+second/60)*360/60}deg)`;
+		oSecond.style.transform = `rotate(${(second+millinSecond/1000)*360/60}deg)`;
+	},16)
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

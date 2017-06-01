@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>blast</title>
+		<style>
+			body{
+				margin: 0;
+				padding: 0;
+			}
+			p{
+				margin: 10px auto;
+				width: 90px;
+			}
+			#box{
+				width: 900px;
+				height: 500px;
+				border: 2px solid black;
+				margin: 40px auto;
+				background-size: cover;
+				perspective: 800px;
+				transform-style: preserve-3d;
+			}
+			
+			.wrapper{
+				width: 100px;
+				height: 100px;
+				float: left;
+			}
+		</style>
+		<script>
+			if(window.navigator.userAgent.indexOf('MSIE 9.0') != -1) {
+			    alert('本站部分效果不支持ie9及以下版本浏览器，页面可能无法正常显示，请升级浏览器或更换其他浏览器');
+			}
+		</script>
+	</head>
+	<body>
+		<p>点击屏幕</p>
+		<div id="box"></div>
+	</body>
+</html>
+<script>
+	var oBox = document.querySelector('#box');
+	
+	var rows = 5;
+	var cols = 9;
+	
+	var bReady = true;
+	
+	var currentIndex = 0;
+	oBox.style.backgroundSize = 'cover';
+	oBox.style.backgroundImage = 'url(img/t'+(currentIndex+1)+'.jpg)';
+	
+	
+	for(var i=0; i<rows; i++){
+		for(var j=0; j<cols; j++){
+			var oDiv = document.createElement('div');
+			oDiv.classList.add('wrapper');
+			oDiv.style.backgroundImage = 'url(img/t'+currentIndex+'.jpg)';
+			oDiv.style.backgroundPosition = -j*100+'px '+(-i*100)+'px';
+			
+			oBox.appendChild(oDiv);
+		}
+	}
+	
+	var aWrapper = document.querySelectorAll('.wrapper');
+	window.onclick = function(){
+		if(!bReady) return;
+		
+		bReady = false;
+
+		for(var i=0; i<aWrapper.length; i++){
+			aWrapper[i].style.transition = '.6s '+rnd(0,300)+'ms';
+			aWrapper[i].style.transform = 'translateZ(600px) rotateX('+rnd(100,300)+'deg) rotateY('+rnd(100,300)+'deg)';
+			aWrapper[i].style.opacity = '0';
+		}
+		
+		setTimeout(function(){
+			currentIndex++;
+
+			for(var i=0; i<aWrapper.length; i++){
+				aWrapper[i].style.transition = '0s';
+				aWrapper[i].style.transform = '';
+				aWrapper[i].style.opacity = '1';
+				aWrapper[i].style.backgroundImage = 'url(img/t'+currentIndex%3+'.jpg)';
+			}
+
+			oBox.style.backgroundImage = 'url(img/t'+(currentIndex+1)%3+'.jpg)';
+			
+			bReady = true;
+		},900)
+	}
+	
+	function rnd(n,m){
+		return parseInt(Math.random()*(m-n)+n);
+	}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

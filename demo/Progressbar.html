@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Progress bar</title>
+		<style>
+			*{
+				margin:0;
+				padding:0;
+				list-style:none;
+			}
+			#box{
+				width:500px;
+				height:300px;
+				margin:100px auto;
+				position:relative;
+				overflow:hidden;
+			}
+			#box ul{
+				width:2000px;
+				height:300px;
+				position:absolute;
+				top:0;
+				left:0;
+			}
+			#box ul li{
+				width:500px;
+				height:300px;
+				float:left;
+				line-height:300px;
+				text-align:center;
+				font-size:200px;
+				background-size: cover;
+			}
+			#box ol{
+				width:320px;
+				height:15px;
+				position:absolute;
+				bottom:20px;
+				left:50%;
+				margin-left:-160px;
+			}
+			#box ol li{
+				width:60px;
+				height:12px;
+				float:left;
+				margin:10px;
+				background-color: #fff;
+				position:relative;
+			}
+			#box ol li span{
+				width:0;
+				height:12px;
+				background:#14a9f0;
+				position:absolute;
+				top:0;
+				left:0;
+			}
+			</style>
+	</head>
+	<body>
+		<div id="box">
+			<ul>
+		    	<li style="background-image:url(img/pro1.jpg)"></li>
+		        <li style="background-image:url(img/pro2.jpg)"></li>
+		        <li style="background-image:url(img/pro3.jpg)"></li>
+		        <li style="background-image:url(img/pro4.jpg)"></li>
+		    </ul>
+		    <ol>
+		    	<li><span></span></li>
+		        <li><span></span></li>
+		        <li><span></span></li>
+		        <li><span></span></li>
+		    </ol>
+		</div>
+	</body>
+</html>
+<script src="js/move.js"></script>
+<script>
+	var oBox = document.getElementById('box');
+	var oUl = oBox.children[0];
+	var oOl = oBox.children[1];
+	var aLi = oUl.children;
+	var aSpan = oOl.getElementsByTagName('span');
+	
+	oUl.innerHTML += oUl.innerHTML;  //内容加多
+	oUl.style.width = aLi[0].offsetWidth*aLi.length+'px';  //长度加倍
+	
+	var bSin = false;
+	oBox.onmouseenter = function(){
+		bSin = true;
+		for(var i=0; i<aSpan.length; i++){
+			aSpan[i].style.width = 0;
+			clearInterval(aSpan[i].timer);
+		}
+	}
+	oBox.onmouseleave = function(){
+		bSin = false;
+		next();
+	}
+	
+	var iNow = 0;
+	next();
+	
+	function next(){
+		move(aSpan[iNow%aSpan.length],{width:60},{
+			easing:'linear',complete:function(){
+				iNow++;
+				for(var i=0; i<aSpan.length; i++){
+					aSpan[i].style.width = 0;
+				}
+				startMove(oUl,-iNow*aLi[0].offsetWidth,function(){
+					if(!bSin){
+						next();
+					}
+				});
+			}
+		});
+	}
+	
+	var left = 0;
+	var timer = null;
+	var w = oUl.offsetWidth/2;
+	function startMove(obj,iTarget,complete){
+		clearInterval(timer);
+		var start = left;
+		var dis = iTarget-start;
+		var count = Math.floor(1000/30);
+		var n=0;
+		timer = setInterval(function(){
+			n++;
+			var a = n/count;
+			var cur = start+dis*a;
+			left = cur;    //如果不写left = cur  left就一直是0 也就是start一直是0；
+			oUl.style.left = left%w+'px';
+			if(n==count){
+				clearInterval(timer);
+				complete && complete();
+			}
+			
+		},30);
+	}
+</script>
+
+
+
+
+

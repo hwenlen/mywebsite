@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>bear</title>
+		<style>
+			body{
+				margin: 0;
+				padding: 0;
+				background-color: black;
+				text-align: center;
+			}
+			canvas{
+				
+			}
+		</style>
+	</head>
+	<body>
+		<canvas width="800" height="600"></canvas>
+	</body>
+</html>
+<script>
+	var oC = document.querySelector('canvas');
+	var ctx = oC.getContext('2d');
+	
+	var direction = 200;
+	var count = 0;
+	var oImage = new Image();
+	oImage.src = 'img/bear.png';
+	
+	oImage.onload = function(){
+		setInterval(function(){
+			ctx.clearRect(0,0,oC.width,oC.height);
+			ctx.drawImage(oImage,
+				direction*(count%8),0,200,100,
+				300,200,200,100
+			)
+			count++;
+		},60)
+	}
+</script>

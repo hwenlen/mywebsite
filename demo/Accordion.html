@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Accordion</title>
+		<style>
+		*{
+			margin:0;
+			padding:0;
+			list-style:none;
+		}
+		#box{
+			width:400px;
+			height:300px;
+			margin:100px auto;
+			position:relative;
+			overflow:hidden;
+		}
+		
+		#box ul li{
+			width:400px;
+			height:300px;
+			position:absolute;
+			top:0;
+		}
+		#box ul li img{
+			width:400px;
+			height:300px;
+		}
+		</style>
+	</head>
+	<body>
+		<div id= "box">
+			<ul>
+		    	<li><img src="img/qin/1.jpg" /></li>
+		        <li><img src="img/qin/2.jpg" /></li>
+		        <li><img src="img/qin/3.jpg" /></li>
+		        <li><img src="img/qin/4.jpg" /></li>
+		        <li><img src="img/qin/5.jpg" /></li>
+		    </ul>
+		</div>
+	</body>
+</html>
+<script src="js/move.js"></script>
+<script>
+	var oBox = document.getElementById('box');
+	var oUl = oBox.children[0];
+	var aLi = oUl.children;
+	
+	var w=30;
+	for(var i=1; i<aLi.length; i++){
+		aLi[i].style.left = oBox.offsetWidth-(aLi.length-i)*w+'px'
+	}
+	for(var i=0; i<aLi.length; i++){
+		(function(index){
+			aLi[i].onmouseover = function(){
+			for(var i=0; i<aLi.length; i++){
+				if(i<=index){
+					move(aLi[i],{left:i*w});
+				}else{
+					move(aLi[i],{left:oBox.offsetWidth-(aLi.length-i)*w});
+				}
+			}
+		};
+		})(i);
+	}
+</script>
